@@ -64,20 +64,20 @@ def pregunta_01():
     En esta función se realiza la carga de datos.
     """
     # Lea el archivo `mushrooms.csv` y asignelo al DataFrame `df`
-    df = pd.read_csv('mushrooms.csv', sep=',')
+    df = pd.read_csv('./mushrooms.csv', sep=',', thousands=None, decimal='.')
 
     # Remueva la columna `veil-type` del DataFrame `df`.
     # Esta columna tiene un valor constante y no sirve para la detección de hongos.
     df.drop('veil_type', axis=1, inplace=True)
 
     # Asigne la columna `type` a la variable `y`.
-    y = df['type']
+    y = df['type'].copy()
 
     # Asigne una copia del dataframe `df` a la variable `X`.
     X = df.copy()
 
     # Remueva la columna `type` del DataFrame `X`.
-    X.drop('type', axis=1, inplace=True)
+    X.drop(columns=['type'], inplace=True)
 
     # Retorne `X` y `y`
     return X, y
@@ -126,7 +126,6 @@ def pregunta_03():
     from sklearn.preprocessing import OneHotEncoder
     from sklearn.pipeline import Pipeline
 
-
     # Cargue las variables.
     X_train, _, y_train, _ = pregunta_02()
 
@@ -134,8 +133,8 @@ def pregunta_03():
     # LogisticRegression con una regularización Cs=10
     pipeline = Pipeline(
         steps=[
-            ("OneHotEncoder", OneHotEncoder()),
-            ("LogisticRegression", LogisticRegressionCV(Cs=10)),
+            ("Encoder", OneHotEncoder()),
+            ("Logistic Regression", LogisticRegressionCV(Cs=10)),
         ],
     )
 
